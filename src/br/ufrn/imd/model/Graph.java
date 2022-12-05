@@ -1,14 +1,24 @@
 package br.ufrn.imd.model;
 
+import org.jgrapht.alg.util.UnionFind;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
     List<Node> nodes;
     List<Edge> edges;
+    ArrayList<Edge> minorTree;
 
     public Graph(List<Node> nodes, List<Edge> edges) {
         this.nodes = nodes;
         this.edges = edges;
+    }
+
+    public void initializeGraph(int nodeQuantity){
+        for(int i = 0; i < nodeQuantity; i++){
+            nodes.add(new Node(i));
+        }
     }
 
     public List<Node> getNodes() {
@@ -27,18 +37,20 @@ public class Graph {
         this.edges = edges;
     }
 
+    public ArrayList<Edge> getMinorTree() {
+        return minorTree;
+    }
+
+    public void setMinorTree(ArrayList<Edge> minorTree) {
+        this.minorTree = minorTree;
+    }
+
     public void addNode(int n){
         nodes.add(new Node(n));
     }
 
     public void addEdge(int nodeId, int nodeTargetId, int cost){
         edges.add(new Edge(nodeId, nodeTargetId, cost));
-    }
-
-    public void initializeGraph(int nodeQuantity){
-        for(int i = 0; i < nodeQuantity; i++){
-            nodes.add(new Node(i));
-        }
     }
 
     public void sortEdgesByCost(){
@@ -54,6 +66,10 @@ public class Graph {
             }
             System.out.println("");
         }
+    }
+
+    public void printMinorTree(){
+        System.out.println(minorTree);
     }
 
     @Override

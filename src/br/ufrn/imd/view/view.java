@@ -2,6 +2,7 @@ package br.ufrn.imd.view;
 
 import br.ufrn.imd.model.Edge;
 import br.ufrn.imd.model.Graph;
+import br.ufrn.imd.model.KruskalAlgorithm;
 import br.ufrn.imd.model.SortEdge;
 import org.jgrapht.alg.util.UnionFind;
 
@@ -9,11 +10,21 @@ import java.util.*;
 
 public class view {
 
-    public void kruskalAlgo(ListIterator<Edge> graph, int limitConnetions) {
+    public void kruskalAlgo(Graph graph, int numberOfNodes, int limitConnetions) {
         Set<Integer> nodes = new HashSet<>();
         UnionFind<Integer> disjointSet = new UnionFind<>(nodes);
 
-        // TODO: desenvolver lógica do kruskal
+        // result = []
+
+        for (int i = 1; i <= numberOfNodes; ++i){
+            disjointSet.addElement(i);
+        }
+
+        graph.sortEdgesByCost();
+
+        for (Edge edge : graph.getEdges()){
+            System.out.println(disjointSet.inSameSet(edge.getCurrent(), edge.getTarget()));
+        }
 
 
     }
@@ -41,27 +52,36 @@ public class view {
 //            }
 //        }
 
+        /**
+         * n - Número de vértices / casas / nós
+         * d - Limite de conexões de um vértice
+         */
         int d, n;
-        List<Edge> edges = new ArrayList<>();
-
         Graph links = new Graph(new ArrayList<>(), new ArrayList<>());
+        Scanner sc = new Scanner(System.in);
 
-        Scanner sc= new Scanner(System.in);
+
         n = sc.nextInt();
+
         d = sc.nextInt();
 
         links.initializeGraph(n);
 
         for (int i = 0; i < n; ++i){
-            for (int j = 0; j < i; ++j){
+            for (int j = i+1; j < n ; ++j){
                 links.addEdge(i, j, sc.nextInt());
             }
         }
 
-        links.sortEdgesByCost();
+//        links.sortEdgesByCost();
 
-        links.printEdges();
+//        links.printEdges();
 
+        KruskalAlgorithm ka = new KruskalAlgorithm(links, n, d);
+
+        links.setMinorTree(ka.run());
+
+        links.printMinorTree();
 
     }
 }
