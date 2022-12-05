@@ -22,17 +22,23 @@ public class KruskalAlgorithm {
         UnionFind<Integer> minorTree = new UnionFind<>(nodes);
 
         ArrayList<Edge> minorTreeEdges = new ArrayList<>();
+        ArrayList<Integer> checkLimitArray = new ArrayList<>();
 
         for (int i = 0; i < numberOfNodes; ++i){
             minorTree.addElement(i);
+            checkLimitArray.add(0);
         }
 
         graph.sortEdgesByCost();
 
         for (Edge edge : graph.getEdges()){
-            if(!minorTree.inSameSet(edge.getCurrent(), edge.getTarget())){
-                minorTree.union(edge.getCurrent(), edge.getTarget());
-                minorTreeEdges.add(edge);
+            if (checkLimitArray.get(edge.getCurrent()) < limitConnections && checkLimitArray.get(edge.getTarget()) < limitConnections){
+                if(!minorTree.inSameSet(edge.getCurrent(), edge.getTarget())){
+                    minorTree.union(edge.getCurrent(), edge.getTarget());
+                    minorTreeEdges.add(edge);
+                    checkLimitArray.set(edge.getCurrent(), checkLimitArray.get(edge.getCurrent()) + 1);
+                    checkLimitArray.set(edge.getTarget(), checkLimitArray.get(edge.getTarget()) + 1);
+                }
             }
         }
 
