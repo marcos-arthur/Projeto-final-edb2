@@ -1,9 +1,6 @@
 package br.ufrn.imd.view;
 
-import br.ufrn.imd.model.Edge;
-import br.ufrn.imd.model.Graph;
-import br.ufrn.imd.model.KruskalAlgorithm;
-import br.ufrn.imd.model.SortEdge;
+import br.ufrn.imd.model.*;
 import org.jgrapht.alg.util.UnionFind;
 
 import java.util.*;
@@ -77,9 +74,20 @@ public class view {
 
 //        links.printEdges();
 
-        KruskalAlgorithm ka = new KruskalAlgorithm(links, n, d);
+        KruskalAlgorithm ka = new KruskalAlgorithm();
 
-        links.setMinorTree(ka.run());
+        // Stage 0
+        SpanningTree st = ka.run(links, n, d);
+        links.setMinorTree(st.getSpanningTree());
+        links.addSpanningTree(st);
+
+
+//        System.out.println(st.getTotalCost());
+
+
+        // Stage 1
+
+
 
         links.printMinorTree();
 

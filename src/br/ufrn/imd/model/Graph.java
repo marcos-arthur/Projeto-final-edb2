@@ -10,6 +10,8 @@ public class Graph {
     List<Edge> edges;
     ArrayList<Edge> minorTree;
 
+    ArrayList<SpanningTree> spanningTreeList;
+
     public Graph(List<Node> nodes, List<Edge> edges) {
         this.nodes = nodes;
         this.edges = edges;
@@ -51,6 +53,10 @@ public class Graph {
 
     public void addEdge(int nodeId, int nodeTargetId, int cost){
         edges.add(new Edge(nodeId, nodeTargetId, cost));
+    }
+
+    public void addSpanningTree(SpanningTree st){
+        spanningTreeList.add(st);
     }
 
     public void sortEdgesByCost(){
